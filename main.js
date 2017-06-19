@@ -1,7 +1,9 @@
-var studentModule;
+// This is the jQuery method for rendering this.
+// However this code does not handle diffing and will re-render the entire template
+
 $(document).ready(function(){
   console.log('ready');
-  studentModule = {
+  var studentModule = {
     students: ['john', 'jack', 'mary', 'joy'],
     init: function(){
       this.cacheDom();
