@@ -2,7 +2,6 @@
 // However this code does not handle diffing and will re-render the entire template
 
 $(document).ready(function(){
-  console.log('ready');
   var studentModule = {
     students: ['john', 'jack', 'mary', 'joy'],
     init: function(){
@@ -26,11 +25,34 @@ $(document).ready(function(){
     removeStudent: function(){
       this.students.pop();
       this.render();
+      // trigger API of listenerModule to update
+      listenerModule.render(this.students.length);
     },    
     render: function(){
-      var students = this.template(this.students);
-      this.app.html(students);
+      var content = this.template(this.students);
+      this.app.html(content);
     }
   }
+
+  var listenerModule = {
+    init: function(){
+      this.cacheDom();
+      this.render(studentModule.students.length);
+    },
+    cacheDom: function(){
+      this.listener = $('#listener');
+    },
+    template: function(length){
+      return `<p>Students length: ${length}</p>`
+    },
+    render: function(length){
+      var content = this.template(length);
+      this.listener.html(content);
+    }
+  }
+
+  // Initialize
   studentModule.init();
+  listenerModule.init();
+
 });
